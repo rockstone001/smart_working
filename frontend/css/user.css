@@ -1,0 +1,13 @@
+.weui-uploader {
+    height: 79px;
+}
+
+.weui-uploader__file {
+    margin-right: 9px;
+    margin-bottom: 0px;
+}
+
+.weui-uploader__bd {
+    margin-right: 0px;
+    margin-bottom: 0px;
+}

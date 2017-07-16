@@ -1,0 +1,282 @@
+<!--活动详情 模板 -->
+<script type="text/html" id="tpl_home">
+    <div class="page tabbar">
+        <div class="page__bd" style="height: 100%;">
+            <div class="weui-tab">
+                <div class="weui-tab__panel">
+                    <div class="weui-navbar p-relative">
+                        <div class="weui-navbar__item my_navbar">
+                            <a class="mui-icon mui-icon-left-nav" id="detail_title" href="<?php echo config_item('index_url') . '/home/index'?>"></a>
+                            <h4 class="title"><?php echo $lesson['title']?></h4>
+                        </div>
+                    </div>
+                    <div class="weui-panel__bd detail_text">
+                        <div class="weui-media-box weui-media-box_text">
+                            <p class="weui-media-box__desc mui-icon-extra mui-icon-extra-outline">
+                                <em>时间：</em>
+                                <span><?php echo date('m-d (H:i)', strtotime($lesson['start_time']));?>&nbsp;至&nbsp;<?php echo date('m-d (H:i)', strtotime($lesson['end_time']));?></span>
+                            </p>
+                            <p class="weui-media-box__desc mui-icon-extra mui-icon-extra-find">
+                                <em>地点：</em>
+                                <span><?php echo $lesson['address'];?></span>
+                            </p>
+                            <p class="weui-media-box__desc mui-icon-extra mui-icon-extra-gold">
+                                <em>价格：</em>
+                                <span id="price"><?php echo $lesson['charge'];?>元</span>
+                            </p>
+                            <p class="weui-media-box__desc mui-icon-extra mui-icon-extra-peoples">
+                                <em>已报名人数：</em>
+                                <span><?php echo $lesson['join_num']?>人</span>
+                            </p>
+                            <p class="weui-media-box__desc mui-icon-extra mui-icon-extra-people">
+                                <em>联系人：</em>
+                                <span><?php echo $lesson['linkman']?></span>
+                            </p>
+                            <p class="weui-media-box__desc mui-icon-extra mui-icon-extra-phone">
+                                <em>联系电话：</em>
+                                <span><?php echo $lesson['contract_number']?></span>
+                            </p>
+                        </div>
+                        <div class="weui-media-box weui-media-box_text">
+                            <h3 class="weui-media-box__title">活动详情</h3>
+                            <article class="my_article">
+                                <?php echo $lesson['detail'];?>
+                            </article>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="weui-tabbar padding10">
+                    <a class="weui-btn weui-btn_primary" id="joinBtn" data-link="join">马上报名</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            $('.js_item').on('click', function(){
+                var link = $(this).data('link');
+                window.pageManager.go(link);
+            });
+            $('#joinBtn').on('click', function(){
+                window.pageManager.go($(this).data('link'));
+                setTimeout(function(){
+                    get_join_page('<?php echo $lesson['title']?>', <?php echo $lesson['id']?>);
+                }, 100);
+
+            });
+        });
+</script>
+</script>
+
+<!--报名页面模板-->
+<script type="text/html" id="tpl_join">
+    <div class="page tabbar">
+    <div class="page__bd" style="height: 100%;">
+    <div class="weui-tab">
+    <div class="weui-tab__panel">
+    <div class="weui-navbar p-relative">
+    <div class="weui-navbar__item my_navbar">
+    <a class="js_item mui-icon mui-icon-left-nav" id="detail_title" data-link="home"></a>
+    <h4 class="title"></h4>
+    </div>
+    </div>
+    <div class="panel">
+    <div class="bd">
+    <div class="weui_panel_bd">
+    <div class="img_text">
+    <div class="left_img">
+    </div>
+    <div class="right_text"></div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="cell">
+    <div class="bd">
+    <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+    <div class="weui_cell__hd"><label class="weui-label">姓名</label></div>
+    <div class="weui_cell__bd weui-cell_primary">
+    <input id="name" class="weui-input" type="text" placeholder="请输入姓名号">
+    </div>
+    </div>
+    <div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">电话</label></div>
+    <div class="weui-cell__bd weui-cell_primary">
+    <input id="mobile" class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入电话号码">
+    </div>
+    </div>
+    <div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">留言</label></div>
+    <div class="weui-cell__bd weui-cell_primary">
+    <textarea class="weui-textarea" placeholder="请输入留言" rows="3" id="msg"></textarea>
+    </div>
+    </div>
+    </div>
+    <div class="weui-cells">
+    <div class="weui-cell">
+    <div class="weui-cell__bd weui-cell_primary">
+    <p class="">支付金额</p>
+    </div>
+    <div class="weui-cell__ft price mui-icon-extra mui-icon-extra-prech"></div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    </div>
+    <div class="weui-tabbar padding10">
+    <a class="weui-btn weui-btn_primary" id="submitBtn">提交报名</a>
+    </div>
+    </div>
+    </div>
+    </div>
+        <!-- loading toast -->
+    <div id="loadingToast" style="display: none;">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+    <i class="weui-loading weui-icon_toast"></i>
+    <p class="weui-toast__content">数据加载中</p>
+    </div>
+    </div>
+
+    <div class="weui-dialog_alert" id="tips_dialog" style="display: none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+    <div class="weui-dialog__hd"><strong class="weui-dialog__title title"></strong></div>
+    <div class="weui-dialog__bd content"></div>
+    <div class="weui-dialog__ft">
+    <a href="javascript:;" class="primary weui-dialog__btn">确定</a>
+    </div>
+    </div>
+    </div>
+    <script>
+    $(function() {
+        $('.js_item').on('click', function(){
+            var link = $(this).data('link');
+            window.pageManager.go(link);
+        });
+    });
+</script>
+</script>
+
+
+<script>
+    var teacher_url = '<?php echo config_item('index_url')?>/home/get_teacher/';
+    var order_url = '<?php echo config_item('index_url')?>/home/order';
+    var home_url = '<?php echo config_item('index_url')?>/home/index';
+    var mine_url = '<?php echo config_item('index_url')?>/home/mine';
+    window.onload = function(){
+        <?php
+        $wechat = new WeChat();
+        $jssdk = new JSSDK($wechat)
+        ?>
+        var _sdk = <?php echo json_encode($jssdk->getSignPackage($wechat))?>;
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: _sdk.appId, // 必填，公众号的唯一标识
+            timestamp: _sdk.timestamp, // 必填，生成签名的时间戳
+            nonceStr: _sdk.nonceStr, // 必填，生成签名的随机串
+            signature: _sdk.signature,// 必填，签名，见附录1
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+
+        wx.onMenuShareTimeline({
+            title: '', // 分享标题
+            link: '', // 分享链接
+            imgUrl: '', // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+    };
+function get_join_page(title, id){
+    $('.join .title').html(title);
+    $('.join .price').html($('#price').html());
+    $.getJSON(teacher_url + id, function(data){
+        if (data.code == 0) {
+            $('.join .left_img').html('<img src="' + data.msg.headimgurl + '"/>');
+            $('.join .right_text').html(data.msg.summary);
+            $('#submitBtn').on('click', function(){
+                var name = $('#name').val();
+                var mobile = $('#mobile').val();
+                var msg = $('#msg').val();
+                if (check_order_submit(name, mobile)) {
+                    $('#loadingToast').show();
+//                        $('#submitBtn').off();
+                    $.getJSON(order_url, {
+                        id:id,
+                        name:name,
+                        mobile:mobile,
+                        msg:msg
+                    }, function(data){
+//                            alert(data.appId);
+                        // 预下单成功
+                        $('#loadingToast').hide();
+                        if (data && data.msg == "" && data.jsparams && data.tips) {
+                            jsApiCall(data.jsparams, data.tips);
+                        } else {
+                            $('#tips_dialog .content').html(data.msg);
+                            if (data.code == '0' ) {
+                                $('#tips_dialog .title').html('操作提示');
+                                $('#tips_dialog').show().on('click', '.weui-dialog__btn', function () {
+                                    $('#tips_dialog').hide();
+                                    location.href = mine_url;
+                                });
+                            } else {
+                                $('#tips_dialog .title').html('错误提示');
+                                $('#tips_dialog').show().on('click', '.weui-dialog__btn', function () {
+                                    $('#tips_dialog').hide();
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+function check_order_submit(name, mobile) {
+    $('#tips_dialog .title').html('错误提示');
+    if (/^\s*$/.test(name)) {
+        $('#tips_dialog').show().on('click', '.weui-dialog__btn', function () {
+            $('#tips_dialog').hide();
+        });
+        $('#tips_dialog .content').html('姓名不能为空');
+        return false;
+    }
+    if (!/^\d{11}$/.test(mobile)) {
+        $('#tips_dialog').show().on('click', '.weui-dialog__btn', function () {
+            $('#tips_dialog').hide();
+        });
+        $('#tips_dialog .content').html('手机格式错误');
+        return false;
+    }
+    return true;
+}
+
+function jsApiCall(params, tips)
+{
+    WeixinJSBridge.invoke(
+        'getBrandWCPayRequest',
+        params,
+        function(res){
+//                WeixinJSBridge.log(res.err_msg);
+            if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                //支付成功
+                $('#tips_dialog .title').html('操作提示');
+                $('#tips_dialog .content').html(tips);
+                $('#tips_dialog').show().on('click', '.weui-dialog__btn', function () {
+                    $('#tips_dialog').hide();
+                    location.href = mine_url;
+                });
+            }
+        }
+    );
+}
+</script>

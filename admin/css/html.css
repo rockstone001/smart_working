@@ -1,0 +1,25 @@
+.tag {
+    display: inline-block;
+    padding: 2px;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+.tag .tag_name {
+    padding-right: 5px;
+    padding-left: 3px;
+}
+.tag .tag_close {
+    border: 1px solid #d5d5d5;
+    width: 12px;
+    text-align: center;
+    display: inline-block;
+    font-size: 10px;
+    height: 12px;
+    line-height: 12px;
+    margin-right: 3px;
+    cursor: pointer;
+}
+.tag .tag_close:hover {
+    background-color: #0c7ab3;
+}
