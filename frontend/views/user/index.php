@@ -10,13 +10,13 @@
                             <div class="weui-uploader">
                                 <div class="weui-uploader__bd">
                                     <ul class="weui-uploader__files" style="float: left;" id="headerUploaderFiles">
-                                        <?php if (!empty($user['headimgurl'])) {?>
+                                        <?php if (!empty($user['headimgurl']) || !empty($user['headimgurl_serverid'])) {?>
                                             <li class="weui-uploader__file" style="">
-                                                <img src="<?php echo $user['headimgurl'];?>" style="width: 79px; height: 79px;"/>
+                                                <img src="<?php echo $user['headimgurl'];?>" style="width: 79px; height: 79px;" data-id="<?php echo $user['headimgurl_serverid'];?>" class="upload_img"/>
                                             </li>
                                         <?php } ?>
                                     </ul>
-                                    <div class="weui-uploader__input-box" style="display: <?php if (empty($user['headimgurl'])) echo ''; else echo 'none'?>">
+                                    <div class="weui-uploader__input-box" style="display: <?php if (empty($user['headimgurl']) && empty($user['headimgurl_serverid'])) echo ''; else echo 'none'?>">
                                         <input id="headerUploader" class="weui-uploader__input" type="file" accept="image/*" multiple="">
                                     </div>
                                 </div>
@@ -29,17 +29,17 @@
                             <div class="weui-uploader">
                                 <div class="weui-uploader__bd">
                                     <ul class="weui-uploader__files" id="IDUploaderFiles" style="float: left;">
-                                        <?php if (!empty($userinfo['ID_photo1'])) {?>
+                                        <?php if (!empty($userinfo['ID_photo1']) || !empty($userinfo['ID_photo1_serverid'])) {?>
                                         <li class="weui-uploader__file" style="">
-                                            <img src="<?php echo $userinfo['ID_photo1'];?>" style="width: 100%;" id="ID_photo1"/>
+                                            <img src="<?php echo $userinfo['ID_photo1'];?>" style="width: 100%;" id="ID_photo1" data-id="<?php echo $userinfo['ID_photo1_serverid'];?>" class="upload_img"/>
                                         </li>
-                                        <?php } if (!empty($userinfo['ID_photo2'])) {?>
+                                        <?php } if (!empty($userinfo['ID_photo2']) || !empty($userinfo['ID_photo2_serverid'])) {?>
                                         <li class="weui-uploader__file" style="">
-                                            <img src="<?php echo $userinfo['ID_photo2'];?>" style="width: 100%;" id="ID_photo2"/>
+                                            <img src="<?php echo $userinfo['ID_photo2'];?>" style="width: 100%;" id="ID_photo2" data-id="<?php echo $userinfo['ID_photo2_serverid'];?>" class="upload_img"/>
                                         </li>
                                         <?php }?>
                                     </ul>
-                                    <div class="weui-uploader__input-box" style="display: <?php if (empty($userinfo['ID_photo1']) || empty($userinfo['ID_photo2'])) echo ''; else echo 'none'?>">
+                                    <div class="weui-uploader__input-box" style="display: <?php if ((empty($userinfo['ID_photo1']) || empty($userinfo['ID_photo2'])) && (empty($userinfo['ID_photo1_serverid']) || empty($userinfo['ID_photo2_serverid']))) echo ''; else echo 'none'?>">
                                         <input id="IDUploader" class="weui-uploader__input" type="file" accept="image/*" multiple="">
                                     </div>
                                 </div>
@@ -59,17 +59,17 @@
                             <div class="weui-uploader">
                                 <div class="weui-uploader__bd">
                                     <ul class="weui-uploader__files" id="salaryUploaderFiles" style="float: left;">
-                                        <?php if (!empty($userinfo['salary_photo1'])) {?>
+                                        <?php if (!empty($userinfo['salary_photo1']) || !empty($userinfo['salary_photo1_serverid'])) {?>
                                             <li class="weui-uploader__file" style="">
-                                                <img src="<?php echo $userinfo['salary_photo1'];?>" style="width: 100%;" id="salary_photo1"/>
+                                                <img src="<?php echo $userinfo['salary_photo1'];?>" style="width: 100%;" id="salary_photo1" data-id="<?php echo $userinfo['salary_photo1_serverid'];?>" class="upload_img"/>
                                             </li>
-                                        <?php } if (!empty($userinfo['salary_photo2'])) {?>
+                                        <?php } if (!empty($userinfo['salary_photo2']) || !empty($userinfo['salary_photo2_serverid'])) {?>
                                             <li class="weui-uploader__file" style="">
-                                                <img src="<?php echo $userinfo['salary_photo2'];?>" style="width: 100%;" id="salary_photo2"/>
+                                                <img src="<?php echo $userinfo['salary_photo2'];?>" style="width: 100%;" id="salary_photo2" data-id="<?php echo $userinfo['salary_photo2_serverid']?>" class="upload_img"/>
                                             </li>
                                         <?php }?>
                                     </ul>
-                                    <div class="weui-uploader__input-box" style="display: <?php if (empty($userinfo['salary_photo1']) || empty($userinfo['salary_photo2'])) echo ''; else echo 'none'?>">
+                                    <div class="weui-uploader__input-box" style="display: <?php if ((!empty($userinfo['salary_photo1']) && !empty($userinfo['salary_photo2'])) || (!empty($userinfo['salary_photo1_serverid']) && !empty($userinfo['salary_photo2_serverid']))) echo 'none'; else echo ''?>">
                                         <input id="salaryUploader" class="weui-uploader__input" type="file" accept="image/*" multiple="">
                                     </div>
                                 </div>
@@ -169,6 +169,49 @@
             $('#tips_dialog .weui-dialog__btn').on('click', function() {
                 $('#tips_dialog').hide();
             });
+
+            //只有serverid  没有下载图片的图片
+            var images = $('.upload_img');
+            var images_download = [];
+            for (var i = 0; i < images.length; i ++) {
+                images_download.push(images[i]);
+            }
+            downloadFromWeixin();
+
+            //为确保下载图片的正确性, 使用串行下载
+            function downloadFromWeixin()
+            {
+                var img = images_download.shift();
+                if (img) {
+                    if ($(img).attr('src') == '' && $(img).data('id')) {
+                        wx.downloadImage({
+                            serverId: $(img).data('id'), // 需要下载的图片的服务器端ID，由uploadImage接口获得
+                            isShowProgressTips: 1, // 默认为1，显示进度提示
+                            success: function (res) {
+                                var localId = res.localId; // 返回图片下载后的本地ID
+                                if (window.__wxjs_is_wkwebview) {
+                                    //ios
+                                    //显示图片
+                                    wx.getLocalImgData({
+                                        localId: localId, // 图片的localID
+                                        success: function (res) {
+                                            var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                            $(img).attr('src', localData);
+                                        }
+                                    });
+                                } else {
+                                    //安卓
+                                    $(img).attr('src', localId);
+                                }
+                                downloadFromWeixin();
+                            }
+                        });
+                    } else {
+                        downloadFromWeixin();
+                    }
+                }
+            }
+
 
             //为确保上传图片的正确性, 使用串行上传
             function upload2Weixin()
@@ -409,7 +452,7 @@ window.onload = function(){
         nonceStr: _sdk.nonceStr, // 必填，生成签名的随机串
         signature: _sdk.signature,// 必填，签名，见附录1
         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone',
-            'chooseImage', 'previewImage', 'getLocalImgData', 'uploadImage'
+            'chooseImage', 'previewImage', 'getLocalImgData', 'uploadImage', 'downloadImage'
         ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
     wx.ready(function(){

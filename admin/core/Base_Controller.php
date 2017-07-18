@@ -406,6 +406,8 @@ class Base_Controller extends CI_Controller
                 'role/index', 'role/get_list', 'role/new_role', 'role/assign', 'role/edit', 'role/remove', //角色管理
                 'privilege/index', 'privilege/', 'privilege/get_list', 'privilege/new_privilege', 'privilege/edit', 'privilege/remove', //权限管理
                 'company/index', 'company/get_list', 'company/new_company', 'company/edit', 'company/remove', //公司管理
+                'city/index', 'city/get_list', 'city/new_city', 'city/edit', 'city/remove', //城市管理
+                'store/index', 'store/get_list', 'store/new_store', 'store/edit', 'store/remove', //城市管理
                 'brand/index', //品牌管理
             ];
         }

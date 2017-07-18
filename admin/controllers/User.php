@@ -21,17 +21,23 @@ class User extends Base_Controller {
 
     public function new_user()
     {
-        $this->js = array_merge($this->js, ['user.js?v=1.1']);
+        $this->js = array_merge($this->js, ['user.js?v=1.2']);
         $this->css = array_merge($this->css, ['uniform.default.css', 'wangEditor.min.css']);
 
         if(!isset($_POST['username'])) {
             $this->load->model('Role_model', 'role');
             $this->load->model('Company_model', 'company');
+            $this->load->model('City_model', 'city');
+            $this->load->model('Store_model', 'store');
+            $this->store->get_company_city_store();
             $this->view('user/new_user', [
                 'roles' => $this->role->get_all_role(),
                 'companies' => $this->company->get_all_company(),
+                'cities' => $this->city->get_all_city(),
+                'stores' => $this->store->get_all_store(),
                 'departments' => config_item('departments'),
                 'positions' => config_item('positions'),
+                'company_city_store' => $this->store->get_company_city_store(),
             ]);
         } else {
             $data = $this->post_params([
@@ -94,11 +100,16 @@ class User extends Base_Controller {
         if(!isset($_POST['username'])) {
             $this->load->model('Role_model', 'role');
             $this->load->model('Company_model', 'company');
+            $this->load->model('City_model', 'city');
+            $this->load->model('Store_model', 'store');
             $this->view('user/new_user', array_merge($this->user->get_user_by_id($id), [
                 'roles' => $this->role->get_all_role(),
                 'companies' => $this->company->get_all_company(),
+                'cities' => $this->city->get_all_city(),
+                'stores' => $this->store->get_all_store(),
                 'departments' => config_item('departments'),
                 'positions' => config_item('positions'),
+                'company_city_store' => $this->store->get_company_city_store(),
             ]));
         } else {
             $data = $this->post_params([

@@ -35,7 +35,7 @@ class Company extends Base_Controller {
                 'state' => 1
             ]);
             if (isset($company['id'])) {
-                $this->_error(Message::ROLE_NAME_DUPLICATED['code'], Message::ROLE_NAME_DUPLICATED['msg']);
+                $this->_error('400001', '分公司名重复');
             }
             if ($this->company->add($data)) {
                 $this->_success([

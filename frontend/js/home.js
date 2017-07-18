@@ -221,6 +221,7 @@ $(function () {
     }
 
     function init(){
+        FastClick.attach(document.body);
         //fastClick();
         //androidInputBugFix();
         setPageManager();
@@ -230,11 +231,23 @@ $(function () {
         };
         setTimeout(function(){
             pageManager.init();
+            $('.link li').on('click', function() {
+                //alert($(this).data('link'));
+                location.href = $(this).data('link');
+            });
+            $('.link').parent().on('click', function() {
+                var if_display = ($(this).find('.link').css('display').toLowerCase() == 'none') ? false : true;
+                $('.link').hide();
+                if (!if_display) {
+                    $(this).find('.link').show();
+                }
+            });
         }, 100);
 
     }
     location.hash = '';
     init();
+
 });
 
 

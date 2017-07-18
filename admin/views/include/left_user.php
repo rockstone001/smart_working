@@ -13,7 +13,15 @@
     </li>
     <?php } if (in_array('company/index', $actions_alloowed)) {?>
         <li class="<?php echo  strtolower($this->router->class) == 'company' ? 'active' : '';?>">
-            <a href="<?php echo config_item('index_url') . '/company/index'?>"><i class="icon-chevron-right"></i>公司管理</a>
+            <a href="<?php echo config_item('index_url') . '/company/index'?>"><i class="icon-chevron-right"></i>分公司管理</a>
+        </li>
+    <?php } if (in_array('city/index', $actions_alloowed)) {?>
+        <li class="<?php echo  strtolower($this->router->class) == 'city' ? 'active' : '';?>">
+            <a href="<?php echo config_item('index_url') . '/city/index'?>"><i class="icon-chevron-right"></i>城市管理</a>
+        </li>
+    <?php } if (in_array('store/index', $actions_alloowed)) {?>
+        <li class="<?php echo  strtolower($this->router->class) == 'store' ? 'active' : '';?>">
+            <a href="<?php echo config_item('index_url') . '/store/index'?>"><i class="icon-chevron-right"></i>卖场管理</a>
         </li>
     <?php } ?>
 </ul>

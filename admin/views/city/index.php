@@ -10,17 +10,17 @@
                 <i class="icon-chevron-right show-sidebar" style="display:none;"><a href='#' title="Show Sidebar" rel='tooltip'>&nbsp;</a></i>
                 <li class="">
                     <!--                    <a href="#">Dashboard</a> <span class="divider">/</span>-->
-                    <a href="<?php echo config_item('index_url') . '/company/index'?>">公司管理</a> <span class="divider">/</span>
+                    <a href="<?php echo config_item('index_url') . '/city/index'?>">城市管理</a> <span class="divider">/</span>
                 </li>
                 <li class="active">
                     <!--                    <a href="#">Settings</a> <span class="divider">/</span>-->
-                    公司列表
+                    城市列表
                 </li>
                 <!--                <li class="active">Tools</li>-->
             </ul>
-            <?php if (in_array('company/new_company', $actions_alloowed)) {?>
+            <?php if (in_array('city/new_city', $actions_alloowed)) {?>
             <div class="btn-group float_right">
-                <a href="<?php echo config_item('index_url') . '/company/new_company'?>"><button class="btn btn-success">新公司 <i class="icon-plus icon-white"></i></button></a>
+                <a href="<?php echo config_item('index_url') . '/city/new_city'?>"><button class="btn btn-success">新城市 <i class="icon-plus icon-white"></i></button></a>
             </div>
             <?php }?>
         </div>
@@ -28,16 +28,16 @@
 </div>
 <div class="panel-body" style="padding-bottom:0px;">
     <div id="toolbar" class="btn-group">
-        <?php if (in_array('company/new_company', $actions_alloowed)) {?>
-        <button id="btn_add" type="button" class="btn" data-link="<?php echo config_item('index_url') . '/company/new_company'?>">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true">新公司</span>
+        <?php if (in_array('city/new_city', $actions_alloowed)) {?>
+        <button id="btn_add" type="button" class="btn" data-link="<?php echo config_item('index_url') . '/city/new_city'?>">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true">新城市</span>
         </button>
-        <?php } if (in_array('company/edit', $actions_alloowed)) {?>
-        <button id="btn_edit" type="button" class="btn" data-link="<?php echo config_item('index_url') . '/company/edit'?>">
+        <?php } if (in_array('city/edit', $actions_alloowed)) {?>
+        <button id="btn_edit" type="button" class="btn" data-link="<?php echo config_item('index_url') . '/city/edit'?>">
             <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
         </button>
-        <?php } if (in_array('company/remove', $actions_alloowed)) {?>
-        <button id="btn_delete" type="button" class="btn" data-link="<?php echo config_item('index_url') . '/company/remove'?>">
+        <?php } if (in_array('city/remove', $actions_alloowed)) {?>
+        <button id="btn_delete" type="button" class="btn" data-link="<?php echo config_item('index_url') . '/city/remove'?>">
             <span class="glyphicon glyphicon-remove" aria-hidden="true">删除</span>
         </button>
         <?php }?>
@@ -45,8 +45,8 @@
     <table id="post_list"></table>
 </div>
 <script>
-    var list_url = "<?php echo config_item('index_url') . '/company/get_list'?>";
-    var remove_url = "<?php echo config_item('index_url') . '/company/remove'?>";
+    var list_url = "<?php echo config_item('index_url') . '/city/get_list'?>";
+    var remove_url = "<?php echo config_item('index_url') . '/city/remove'?>";
 </script>
 
 <!--删除提示 Modal -->

@@ -11,30 +11,34 @@
                 <i class="icon-chevron-right show-sidebar" style="display:none;"><a href='#' title="Show Sidebar" rel='tooltip'>&nbsp;</a></i>
                 <li class="active">
                     <!--                    <a href="#">Dashboard</a> <span class="divider">/</span>-->
-                    <a href="<?php echo config_item('index_url') . '/company/index'?>">分公司管理</a> <span class="divider">/</span>
+                    <a href="<?php echo config_item('index_url') . '/store/index'?>">卖场管理</a> <span class="divider">/</span>
                 </li>
                 <li class="active">
                     <!--                    <a href="#">Settings</a> <span class="divider">/</span>-->
-                    <?php if (isset($id)) echo '编辑分公司'; else echo '新分公司';?>
+                    <?php if (isset($id)) echo '编辑卖场'; else echo '新卖场';?>
                 </li>
                 <!--                <li class="active">Tools</li>-->
             </ul>
         </div>
         <div class="block-content collapse in">
             <div class="span12">
-                <form class="form-horizontal" method="post" action="<?php if (isset($id)) echo config_item('index_url') . '/company/edit/' . $id; else echo config_item('index_url') . '/company/new_company';?>" id="company_form">
+                <form class="form-horizontal" method="post" action="<?php if (isset($id)) echo config_item('index_url') . '/store/edit/' . $id; else echo config_item('index_url') . '/store/new_store';?>" id="store_form">
                     <fieldset>
-                        <legend><?php if (isset($id)) echo '编辑分公司'; else echo '新分公司';?></legend>
+                        <legend><?php if (isset($id)) echo '编辑卖场'; else echo '新卖场';?></legend>
                         <div class="control-group">
-                            <label class="control-label" for="focusedInput">分公司名</label>
+                            <label class="control-label" for="focusedInput">卖场名</label>
                             <div class="controls">
                                 <input class="input-xxlarge focused" id="name" name="name" type="text" value="<?php if (isset($name)) echo $name;?>">
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label" for="focusedInput">描述</label>
+                            <label class="control-label" for="focusedInput">所属城市</label>
                             <div class="controls">
-                                <input class="input-xxlarge" id="desc" name="desc" type="text" value="<?php if (isset($desc)) echo $desc;?>">
+                                <select name="city_id" id="city_id">
+                                    <?php foreach ($cities as $k=>$v) {?>
+                                        <option value="<?php echo $k;?>" <?php if(isset($city_id) && $city_id == $k) echo 'selected'; ?>><?php echo $v;?></option>
+                                    <?php }?>
+                                </select>
                             </div>
                         </div>
                         <div class="control-group">
@@ -51,7 +55,7 @@
                         </div>
                         <div class="form-actions">
                             <button type="button" class="btn btn-primary" id="submit_btn">保存</button>
-                            <button type="reset" class="btn"><a href="<?php echo config_item('index_url') . '/company/index'; ?>">取消</a></button>
+                            <button type="reset" class="btn"><a href="<?php echo config_item('index_url') . '/store/index'; ?>">取消</a></button>
                         </div>
                     </fieldset>
                 </form>

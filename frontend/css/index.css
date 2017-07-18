@@ -218,3 +218,26 @@
     color: #888;
     width:100%;
 }
+
+.weui-tabbar__item {
+    position: relative;
+}
+.weui-tabbar__item ul {
+    list-style-type: none;
+    position: absolute;
+    bottom: 57px;
+}
+
+.weui-tabbar__item ul li {
+    font-size: 15px;
+    width: 100px;
+    padding: 10px 5px;
+    background-color: #646464;
+    color: #fff;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    margin-left: -15px;
+}
+.link {
+    display: none;
+}

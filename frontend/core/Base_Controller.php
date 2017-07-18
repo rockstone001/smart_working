@@ -38,7 +38,7 @@ class Base_Controller extends CI_Controller
      * @desc 必须加载的通用js
      */
     private $base_js = [
-        'zepto.min.js', 'weui.min.js', 'weixin.1.2.0.js',
+        'zepto.min.js', 'weui.min.js', 'weixin.1.2.0.js', 'fastclick.js'
     ];
 
     /**

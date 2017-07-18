@@ -84,11 +84,31 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">所属公司</label>
+                            <label class="control-label">所属分公司</label>
                             <div class="controls">
                                 <select name="company_id" id="company_id">
                                     <?php foreach ($companies as $k=>$v) {?>
                                         <option value="<?php echo $k;?>" <?php if(isset($company_id) && $company_id == $k) echo 'selected'; ?>><?php echo $v;?></option>
+                                    <?php }?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">所属城市</label>
+                            <div class="controls">
+                                <select name="city_id" id="city_id">
+                                    <?php foreach ($cities as $k=>$v) {?>
+                                        <option value="<?php echo $k;?>" <?php if(isset($city_id) && $city_id == $k) echo 'selected'; ?>><?php echo $v;?></option>
+                                    <?php }?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">所属卖场</label>
+                            <div class="controls">
+                                <select name="store_id" id="store_id">
+                                    <?php foreach ($stores as $k=>$v) {?>
+                                        <option value="<?php echo $k;?>" <?php if(isset($store_id) && $store_id == $k) echo 'selected'; ?>><?php echo $v;?></option>
                                     <?php }?>
                                 </select>
                             </div>
@@ -191,6 +211,11 @@
         </div>
     </div>
 </div>
+<script>
+    var company_city_store = <?php echo json_encode($company_city_store);?>;
+    var cities = <?php echo json_encode($cities, JSON_FORCE_OBJECT)?>;
+    var stores = <?php echo json_encode($stores, JSON_FORCE_OBJECT)?>;
+</script>
 
 <!--操作提示 Modal -->
 <div class="modal fade" id="operate_dialog" role="dialog">

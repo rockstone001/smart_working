@@ -16,11 +16,11 @@ $(function () {
     $('#btn_delete').click(function(){
         var toRemoveElems = $('#post_list').bootstrapTable('getSelections');
         if (toRemoveElems.length == 0) {
-            $('#operate_dialog .modal-body').html('请选择要删除的分公司!');
+            $('#operate_dialog .modal-body').html('请选择要删除的城市!');
             $('#operate_dialog').modal({backdrop: 'static'});
             setTimeout(function(){$("#operate_dialog").modal("hide")}, 2000);
         } else {
-            $('#remove_dialog .modal-body').html('您确定要删除这些分公司吗?');
+            $('#remove_dialog .modal-body').html('您确定要删除这些城市吗?');
             $('#remove_dialog').modal({backdrop: 'static'});
             $('.cancel-btn').prop({'disabled':false});
             $('.confirm-btn').prop({'disabled':false});
@@ -30,11 +30,11 @@ $(function () {
     $('#btn_edit').click(function() {
         var toRemoveElems = $('#post_list').bootstrapTable('getSelections');
         if (toRemoveElems.length == 0) {
-            $('#operate_dialog .modal-body').html('请选择要编辑的分公司!');
+            $('#operate_dialog .modal-body').html('请选择要编辑的城市!');
             $('#operate_dialog').modal({backdrop: 'static'});
             setTimeout(function(){$("#operate_dialog").modal("hide")}, 2000);
         } else if (toRemoveElems.length > 1) {
-            $('#operate_dialog .modal-body').html('一次只能编辑一个分公司!');
+            $('#operate_dialog .modal-body').html('一次只能编辑一个城市!');
             $('#operate_dialog').modal({backdrop: 'static'});
             setTimeout(function(){$("#operate_dialog").modal("hide")}, 2000);
         } else {
@@ -105,10 +105,10 @@ var TableInit = function () {
                 checkbox: true
             }, {
                 field: 'name',
-                title: '公司名'
+                title: '城市名'
             }, {
-                field: 'desc',
-                title: '描述'
+                field: 'company',
+                title: '所属分公司'
             }]
         });
     };

@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Company_Model extends Base_Model {
+class City_Model extends Base_Model {
 	
-	const TABLE_NAME = 'companies';
+	const TABLE_NAME = 'cities';
 
 	public function __construct()
 	{
@@ -11,7 +11,7 @@ class Company_Model extends Base_Model {
 
 	}
 
-	public function get_all_company()
+	public function get_all_city()
 	{
 		$query = $this->db->select('id, name')
 			->where([

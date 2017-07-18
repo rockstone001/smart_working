@@ -161,71 +161,140 @@ class User extends Base_Controller {
         $user = $this->post_params([
             'headimgurl', 'username', 'mobile', 'address', 'email'
         ]);
-        $wechat = new WeChat();
+//        $wechat = new WeChat();
+        $download_data = [];
+
+        $this->load->model('User_model', 'user');
+        $user2 = $this->user->get_one([
+            'openid' => $this->session->openid
+        ]);
+
         if (!empty($user['headimgurl'])) {
-            $data = $wechat->getMedia($user['headimgurl']);
-            if (($file = $this->save_image($data)) !== false) {
-                $user['headimgurl'] = config_item('img_url') . date('Ymd') . '/' . $file;
-            }
+            //保存时不做图片下载  在后台脚本做统一的图片下载
+//            $data = $wechat->getMedia($user['headimgurl']);
+//            if (($file = $this->save_image($data)) !== false) {
+//                $user['headimgurl'] = config_item('img_url') . date('Ymd') . '/' . $file;
+//            }
+            $user['headimgurl_serverid'] = $user['headimgurl'];
+            $user['headimgurl'] = '';
+            //插入download_data 表数据
+            $download_data[] = [
+                'uid' => $user2['id'],
+                'server_id' => $user['headimgurl_serverid'],
+                'tablename' => 'users',
+                'columnname' => 'headimgurl',
+                'where_column' => 'id',
+                'where_value' => $user2['id'],
+            ];
         } else {
             unset($user['headimgurl']);
         }
-        $this->load->model('User_model', 'user');
+
         $this->user->update($user, [
             'openid' => $this->session->openid
         ]);
+
         //保存 userinfo
         if (!empty($userinfo['ID_photo1'])) {
-            $data = $wechat->getMedia($userinfo['ID_photo1']);
-            if (($file = $this->save_image($data)) !== false) {
-                $userinfo['ID_photo1'] = config_item('img_url') . date('Ymd') . '/' . $file;
-            }
+//            $data = $wechat->getMedia($userinfo['ID_photo1']);
+//            if (($file = $this->save_image($data)) !== false) {
+//                $userinfo['ID_photo1'] = config_item('img_url') . date('Ymd') . '/' . $file;
+//            }
+            $userinfo['ID_photo1_serverid'] = $userinfo['ID_photo1'];
+            $userinfo['ID_photo1'] = '';
+            //插入download_data 表数据
+            $download_data[] = [
+                'uid' => $user2['id'],
+                'server_id' => $userinfo['ID_photo1_serverid'],
+                'tablename' => 'user_info',
+                'columnname' => 'ID_photo1',
+                'where_column' => 'uid',
+                'where_value' => $user2['id'],
+            ];
         } else {
             unset($userinfo['ID_photo1']);
         }
 
         if (!empty($userinfo['ID_photo2'])) {
-            $data = $wechat->getMedia($userinfo['ID_photo2']);
-            if (($file = $this->save_image($data)) !== false) {
-                $userinfo['ID_photo2'] = config_item('img_url') . date('Ymd') . '/' . $file;
-            }
+//            $data = $wechat->getMedia($userinfo['ID_photo2']);
+//            if (($file = $this->save_image($data)) !== false) {
+//                $userinfo['ID_photo2'] = config_item('img_url') . date('Ymd') . '/' . $file;
+//            }
+            $userinfo['ID_photo2_serverid'] = $userinfo['ID_photo2'];
+            $userinfo['ID_photo2'] = '';
+            //插入download_data 表数据
+            $download_data[] = [
+                'uid' => $user2['id'],
+                'server_id' => $userinfo['ID_photo2_serverid'],
+                'tablename' => 'user_info',
+                'columnname' => 'ID_photo2',
+                'where_column' => 'uid',
+                'where_value' => $user2['id'],
+            ];
         } else {
             unset($userinfo['ID_photo2']);
         }
 
         if (!empty($userinfo['salary_photo1'])) {
-            $data = $wechat->getMedia($userinfo['salary_photo1']);
-            if (($file = $this->save_image($data)) !== false) {
-                $userinfo['salary_photo1'] = config_item('img_url') . date('Ymd') . '/' . $file;
-            }
+//            $data = $wechat->getMedia($userinfo['salary_photo1']);
+//            if (($file = $this->save_image($data)) !== false) {
+//                $userinfo['salary_photo1'] = config_item('img_url') . date('Ymd') . '/' . $file;
+//            }
+            $userinfo['salary_photo1_serverid'] = $userinfo['salary_photo1'];
+            $userinfo['salary_photo1'] = '';
+            //插入download_data 表数据
+            $download_data[] = [
+                'uid' => $user2['id'],
+                'server_id' => $userinfo['salary_photo1_serverid'],
+                'tablename' => 'user_info',
+                'columnname' => 'salary_photo1',
+                'where_column' => 'uid',
+                'where_value' => $user2['id'],
+            ];
         } else {
             unset($userinfo['salary_photo1']);
         }
 
         if (!empty($userinfo['salary_photo2'])) {
-            $data = $wechat->getMedia($userinfo['salary_photo2']);
-            if (($file = $this->save_image($data)) !== false) {
-                $userinfo['salary_photo2'] = config_item('img_url') . date('Ymd') . '/' . $file;
-            }
+//            $data = $wechat->getMedia($userinfo['salary_photo2']);
+//            if (($file = $this->save_image($data)) !== false) {
+//                $userinfo['salary_photo2'] = config_item('img_url') . date('Ymd') . '/' . $file;
+//            }
+            $userinfo['salary_photo2_serverid'] = $userinfo['salary_photo2'];
+            $userinfo['salary_photo2'] = '';
+            //插入download_data 表数据
+            $download_data[] = [
+                'uid' => $user2['id'],
+                'server_id' => $userinfo['salary_photo2_serverid'],
+                'tablename' => 'user_info',
+                'columnname' => 'salary_photo2',
+                'where_column' => 'uid',
+                'where_value' => $user2['id'],
+            ];
         } else {
             unset($userinfo['salary_photo2']);
         }
 
-        $user = $this->user->get_one([
-            'openid' => $this->session->openid
-        ]);
+
         $this->load->model('User_info_model', 'user_info');
         $userinfo2 = $this->user_info->get_one([
-            'uid' => $user['id']
+            'uid' => $user2['id']
         ]);
         if (isset($userinfo2['id'])) {
             $this->user_info->update($userinfo, [
-                'uid' => $user['id']
+                'uid' => $user2['id']
             ]);
         } else {
-            $userinfo['uid'] = $user['id'];
+            $userinfo['uid'] = $user2['id'];
             $this->user_info->add($userinfo);
         }
+
+        //保存download_data
+        $this->load->model('Download_data_model', 'download_data');
+        foreach ($download_data as $data) {
+            $this->download_data->add($data);
+        }
+
         $this->_success('修改成功');
     }
 
